@@ -19,8 +19,6 @@ import { Address } from 'src/address/models/address.model';
 import { FileUpload } from 'src/fileUpload.model';
 import { Comment } from 'src/comment/models/comment.model';
 import { CommentModule } from 'src/comment/comment.module';
-import { CountryModule } from 'src/country/country.module';
-import { Country } from 'src/country/models/country.model';
 import { ViewFilesController } from 'src/viewFiles';
 import { TagModule } from 'src/tag/tag.module';
 import { Tag } from 'src/tag/models/tag.model';
@@ -31,7 +29,8 @@ import { EquipmentAttachmentModule } from 'src/equipment-attachment/equipment-at
 import { EquipmentAttachment } from 'src/equipment-attachment/models/equipment-attachment';
 import { EmployeeAttachment } from 'src/employee-attachment/models/employee-attachment';
 import { EmployeeAttachmentModule } from 'src/employee-attachment/employee-attachment.module';
-
+import { CountryModule } from 'src/country/country.module';
+import { Country } from 'src/country/models/country.model';
 @Module({
   imports: [
     SequelizeModule.forFeature([FileUpload]),
