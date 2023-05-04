@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Req, Query } from '@nestjs/common';
-import { CompanyService } from './company.service';
-import { CreateCompanyDto } from './dto/create-company.dto';
-import { UpdateCompanyDto } from './dto/update-company.dto';
+import { CompanyService } from 'src/company/company.service';
+import { CreateCompanyDto } from 'src/company/dto/create-company.dto';
+import { UpdateCompanyDto } from 'src/company/dto/update-company.dto';
 
 @Controller('company')
 export class CompanyController {

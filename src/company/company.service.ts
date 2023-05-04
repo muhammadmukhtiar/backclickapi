@@ -1,8 +1,8 @@
-import { UpdateCompanyDto } from './dto/update-company.dto';
+import { UpdateCompanyDto } from 'src/company/dto/update-company.dto';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { CreateCompanyDto } from './dto/create-company.dto';
-import { Company } from './models/company.model';
+import { CreateCompanyDto } from 'src/company/dto/create-company.dto';
+import { Company } from 'src/company/models/company.model';
 
 @Injectable()
 export class CompanyService {

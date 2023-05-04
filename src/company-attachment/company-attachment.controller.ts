@@ -1,6 +1,6 @@
-import { CompanyAttachmentService } from './company-attachment.service';
-import { CreateCompanyAttachmentDto } from './dto/create-company-attachment.dto';
-import { UpdateCompanyAttachmentDto } from './dto/update-company-attachment.dto';
+import { CompanyAttachmentService } from 'src/company-attachment/company-attachment.service';
+import { CreateCompanyAttachmentDto } from 'src/company-attachment/dto/create-company-attachment.dto';
+import { UpdateCompanyAttachmentDto } from 'src/company-attachment/dto/update-company-attachment.dto';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { Express } from 'express';
 import { diskStorage } from 'multer';

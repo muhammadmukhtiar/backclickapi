@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Op } from 'sequelize';
-import { CreateCompanyAttachmentDto } from './dto/create-company-attachment.dto';
-import { UpdateCompanyAttachmentDto } from './dto/update-company-attachment.dto';
-import { CompanyAttachment } from './models/company-attachment';
+import { CreateCompanyAttachmentDto } from 'src/company-attachment/dto/create-company-attachment.dto';
+import { UpdateCompanyAttachmentDto } from 'src/company-attachment/dto/update-company-attachment.dto';
+import { CompanyAttachment } from 'src/company-attachment/models/company-attachment';
 
 @Injectable()
 export class CompanyAttachmentService {
