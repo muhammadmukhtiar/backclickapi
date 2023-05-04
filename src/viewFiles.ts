@@ -1,8 +1,9 @@
 
 import { Controller, Get, NotFoundException, Param, Res } from '@nestjs/common';
 import { Response } from 'express';
-import * as fs from 'fs';
 import { Public } from 'src/auth/decorators/public.decorator';
+
+import * as fs from 'fs';
 
 @Controller('files')
 export class ViewFilesController {
