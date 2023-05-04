@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { CountryService } from './country.service';
-import { CreateCountryDto } from './dto/create-country.dto';
-import { UpdateCountryDto } from './dto/update-country.dto';
+import { CountryService } from 'src/country/country.service';
+import { CreateCountryDto } from 'src/country/dto/create-country.dto';
+import { UpdateCountryDto } from 'src/country/dto/update-country.dto';
 
 @Controller('country')
 export class CountryController {

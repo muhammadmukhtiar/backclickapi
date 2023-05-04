@@ -1,6 +1,6 @@
-import { EquipmentAttachmentService } from './equipment-attachment.service';
-import { CreateEquipmentAttachmentDto } from './dto/create-equipment-attachment.dto';
-import { UpdateEquipmentAttachmentDto } from './dto/update-equipment-attachment.dto';
+import { EquipmentAttachmentService } from 'src/equipment-attachment/equipment-attachment.service';
+import { CreateEquipmentAttachmentDto } from 'src/equipment-attachment/dto/create-equipment-attachment.dto';
+import { UpdateEquipmentAttachmentDto } from 'src/equipment-attachment/dto/update-equipment-attachment.dto';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { Express } from 'express';
 import { diskStorage } from 'multer';

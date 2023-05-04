@@ -1,6 +1,6 @@
-import { EmployeeAttachmentService } from './employee-attachment.service';
-import { CreateEquipmentAttachmentDto } from './dto/create-employee-attachment.dto';
-import { UpdateEquipmentAttachmentDto } from './dto/update-employee-attachment.dto';
+import { EmployeeAttachmentService } from 'src/employee-attachment/employee-attachment.service';
+import { CreateEquipmentAttachmentDto } from 'src/employee-attachment/dto/create-employee-attachment.dto';
+import { UpdateEquipmentAttachmentDto } from 'src/employee-attachment/dto/update-employee-attachment.dto';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { Express } from 'express';
 import { diskStorage } from 'multer';

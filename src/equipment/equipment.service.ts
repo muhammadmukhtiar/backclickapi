@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { CreateEquipmentDto } from './dto/create-equipment.dto';
-import { Equipment } from './models/Equipment.model';
+import { CreateEquipmentDto } from 'src/equipment/dto/create-equipment.dto';
+import { Equipment } from 'src/equipment/models/equipment.model';
 
 @Injectable()
 export class EquipmentService {

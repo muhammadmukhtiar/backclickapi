@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { CreateCountryDto } from './dto/create-country.dto';
-import { UpdateCountryDto } from './dto/update-country.dto';
-import { Country } from './models/Country.model';
+import { CreateCountryDto } from 'src/country/dto/create-country.dto';
+import { UpdateCountryDto } from 'src/country/dto/update-country.dto';
+import { Country } from 'src/country/models/country.model';
 
 @Injectable()
 export class CountryService {

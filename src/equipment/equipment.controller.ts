@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
-import { EquipmentService } from './equipment.service';
-import { CreateEquipmentDto } from './dto/create-equipment.dto';
-import { UpdateEquipmentDto } from './dto/update-equipment.dto';
+import { EquipmentService } from 'src/equipment/equipment.service';
+import { CreateEquipmentDto } from 'src/equipment/dto/create-equipment.dto';
+import { UpdateEquipmentDto } from 'src/equipment/dto/update-equipment.dto';
 
 @Controller('equipment')
 export class EquipmentController {
