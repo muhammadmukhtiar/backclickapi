@@ -1,11 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Request, UseGuards, Param, Delete, Query } from '@nestjs/common';
 import { EquipmentService } from 'src/equipment/equipment.service';
 import { CreateEquipmentDto } from 'src/equipment/dto/create-equipment.dto';
 import { UpdateEquipmentDto } from 'src/equipment/dto/update-equipment.dto';
+import { RolesGuard } from 'src/auth/auth-strategy/roles-guard';
 
 @Controller('equipment')
+@UseGuards(new RolesGuard(['company', 'admin']))
 export class EquipmentController {
-  constructor(private readonly equipmentService: EquipmentService) {}
+  constructor(private readonly equipmentService: EquipmentService) { }
 
   @Post()
   create(@Body() createEquipmentDto: CreateEquipmentDto) {
@@ -13,14 +15,16 @@ export class EquipmentController {
   }
 
   @Get('search?')
-  search(@Query() query) {
-    return this.equipmentService.search(query);
+  search(@Query() query, @Request() req) {
+    const companyId = req.user.referencedId;
+    return this.equipmentService.search(query, companyId);
   }
 
-  
+
   @Get()
-  findAll() {
-    return this.equipmentService.findAll();
+  findAll(@Request() req) {
+    const companyId = req.user.referencedId;
+    return this.equipmentService.findAll(companyId);
   }
 
   @Get(':id')

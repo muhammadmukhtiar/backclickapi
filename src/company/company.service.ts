@@ -30,7 +30,9 @@ export class CompanyService {
   }
 
   async findAll(): Promise<Company[]> {
-    return this.companyModel.findAll();
+    return this.companyModel.findAll({
+      order: [['createdAt', 'DESC']]
+    });
   }
 
   findOne(id: string): Promise<Company> {
