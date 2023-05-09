@@ -20,7 +20,7 @@ import { FileUpload } from 'src/fileUpload.model';
 import { Comment } from 'src/comment/models/comment.model';
 import { CommentModule } from 'src/comment/comment.module';
 import { CountryModule } from 'src/country/country.module';
-import { Country } from 'src/country/models/Country.model';
+import { Country } from 'src/country/models/country.model';
 import { ViewFilesController } from 'src/viewFiles';
 import { TagModule } from 'src/tag/tag.module';
 import { Tag } from 'src/tag/models/tag.model';

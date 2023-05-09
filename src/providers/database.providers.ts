@@ -1,8 +1,8 @@
 // import { User } from 'src/users/models/user.model';
 import { Sequelize } from 'sequelize-typescript';
 import { Company } from 'src/company/models/company.model';
-import { Employee } from 'src/employees/models/Employee.model';
-import { Equipment } from 'src/equipment/models/Equipment.model';
+import { Employee } from 'src/employees/models/employee.model';
+import { Equipment } from 'src/equipment/models/equipment.model';
 
 export const databaseProviders = [
   {
