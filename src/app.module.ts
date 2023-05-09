@@ -36,10 +36,6 @@ import { Country } from 'src/country/models/country.model';
     SequelizeModule.forFeature([FileUpload]),
     SequelizeModule.forRoot({
       dialect: 'mysql',
-     
-    
-    
-
       host: 'mysql-125401-0.cloudclusters.net',
       port: 19151,
       username: 'admin',
