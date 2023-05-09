@@ -1,10 +1,8 @@
-import { Column, Model, Table } from 'sequelize-typescript';
+import { Column, HasMany, Model, Table } from 'sequelize-typescript';
+import { CompanyAttachment } from 'src/company-attachment/models/company-attachment';
 
-@Table
+@Table({tableName:'companies'})
 export class Company extends Model {
-  // @Column
-  // id: number;
-  // primaryKey: true
 
   @Column
   name: string;
@@ -37,6 +35,7 @@ export class Company extends Model {
 
   @Column
   city: string;
+
   @Column
   country: string;
 
@@ -59,5 +58,33 @@ export class Company extends Model {
   @Column({ defaultValue: true })
   isActive: boolean;
 
+  @Column
+  status: string;
 
+  @Column
+  totalEmployees: string;
+
+  @Column
+  totalEquipments: string;
+
+  @Column
+  state: string;
+
+  @Column
+  cinNumber: string;
+
+  @Column
+  address2: string;
+
+  @Column
+  pinCode: string;
+
+  @Column
+  comment: string;
+
+  @Column
+  isArchived: string;
+
+  @HasMany(() => CompanyAttachment, 'companyId')
+  attachments: CompanyAttachment[]
 }

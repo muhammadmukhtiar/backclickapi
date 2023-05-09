@@ -1,15 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { CreateEmployeeDto } from 'src/employees/dto/create-employee.dto';
-import { UpdateEmployeeDto } from 'src/employees/dto/update-employee.dto';
+import { CreateEmployeeDto } from './dto/create-employee.dto';
+import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { Employee } from 'src/employees/models/employee.model';
+import { generateQuery } from 'src/utility/helpers';
+import { EmployeeAttachment } from 'src/employee-attachment/models/employee-attachment';
 
 @Injectable()
 export class EmployeesService {
   constructor(
     @InjectModel(Employee)
     private readonly EmployeeModel: typeof Employee,
-  ) {}
+  ) { }
 
   create(createDto: CreateEmployeeDto): Promise<Employee> {
     return this.EmployeeModel.create({
@@ -18,7 +20,8 @@ export class EmployeesService {
   }
 
   update(id: string, updateDto: UpdateEmployeeDto): Promise<any> {
-    return this.EmployeeModel.update({
+    return this.EmployeeModel.update(
+      {
         ...updateDto,
       },
       {
@@ -29,7 +32,7 @@ export class EmployeesService {
     );
   }
 
-  search(query: any): Promise<Employee[]> {
+  search1(query: any): Promise<Employee[]> {
     return this.EmployeeModel.findAll({
       where: {
         ...query,
@@ -37,8 +40,17 @@ export class EmployeesService {
     });
   }
 
-  async findAll(): Promise<Employee[]> {
-    return this.EmployeeModel.findAll();
+  search(searchQuery: any, companyId): Promise<Employee[]> {
+    searchQuery = {
+      ...searchQuery,
+      companyId: companyId
+    }
+    const query = generateQuery(searchQuery);
+    return this.EmployeeModel.findAll(query);
+  }
+
+  async findAll(companyId): Promise<Employee[]> {
+    return this.EmployeeModel.findAll({ where: { companyId: companyId } });
   }
 
   findOne(id: string): Promise<Employee> {
@@ -46,6 +58,7 @@ export class EmployeesService {
       where: {
         id,
       },
+      include: [{ model: EmployeeAttachment }],
     });
   }
 
@@ -53,4 +66,5 @@ export class EmployeesService {
     const employee = await this.findOne(id);
     await employee.destroy();
   }
+
 }

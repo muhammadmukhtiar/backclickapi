@@ -1,17 +1,22 @@
-import { Column, Model, Table } from 'sequelize-typescript';
+import { Column, HasMany, Model, Table } from 'sequelize-typescript';
+import { EmployeeAttachment } from 'src/employee-attachment/models/employee-attachment';
 
 @Table
 export class Employee extends Model {
-  // @Column
-  // id: number;
-  // primaryKey: true
 
   @Column
-  fullName: string;
+  firstName: string;
 
+  @Column
+  lastName: string;
+  
   @Column
   email: string;
 
+  @Column
+  secondaryEmail: string;
+
+  
   @Column
   joiningDate: string;
 
@@ -42,5 +47,45 @@ export class Employee extends Model {
   @Column
   companyId: string;
 
+  @Column
+  address: string;
+
+  @Column
+  address2: string;
+
+  @Column
+  alternateContactNumber: string;
+
+  @Column
+  city: string;
+
+  @Column
+  companyName: string;
+
+  @Column
+  country: string;
+  
+  @Column
+  state: string;
+
+  @Column
+  department: string;
+
+  @Column
+  languageSpoken: string;
+
+  @Column
+  pinCode: string;
+
+  @Column
+  preferedCommunicationMode: string;
+
+
+  @Column
+  prefferedCommunicationTime: string;
+
+
+  @HasMany(() => EmployeeAttachment, 'employeeId')
+  attachments: EmployeeAttachment[]
 
 }

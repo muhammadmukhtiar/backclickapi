@@ -1,15 +1,28 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Req, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Query } from '@nestjs/common';
 import { CompanyService } from 'src/company/company.service';
-import { CreateCompanyDto } from 'src/company/dto/create-company.dto';
 import { UpdateCompanyDto } from 'src/company/dto/update-company.dto';
+import { UsersService } from 'src/users/users.service';
 
 @Controller('company')
 export class CompanyController {
-  constructor(private readonly companyService: CompanyService) {}
+  constructor(
+    private readonly companyService: CompanyService,
+    private usersService: UsersService,
+    ) {}
 
   @Post()
-  create(@Body() createCompanyDto: CreateCompanyDto) {
-    return this.companyService.create(createCompanyDto);
+  async create(@Body() createCompanyDto: any) {
+    const company = await this.companyService.create(createCompanyDto);
+    const data = {
+      email: createCompanyDto.adminPrimaryEmail,
+      firstName: company.dataValues.adminFirstName,
+      lastName: company.dataValues.adminLastName,
+      referencedId: company.dataValues.id,
+      role: 'company',
+      isActive: true
+    }
+    await this.usersService.create(data);
+    return company;
   }
 
   @Get()

@@ -9,5 +9,5 @@ export class CreateEmployeeDto {
     team?:string
     postion?:string
     authorization?:string
-    isActive?:string
+    isActive?:any
 }
