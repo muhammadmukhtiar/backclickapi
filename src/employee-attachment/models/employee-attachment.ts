@@ -1,5 +1,5 @@
 import { BelongsTo, Column, Model, Table } from 'sequelize-typescript';
-import { Equipment } from 'src/equipment/models/equipment.model';
+import { Equipment } from 'src/equipment/models/Equipment.model';
 
 @Table
 export class EmployeeAttachment extends Model {

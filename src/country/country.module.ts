@@ -2,7 +2,7 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { Module } from '@nestjs/common';
 import { CountryService } from 'src/country/country.service';
 import { CountryController } from 'src/country/country.controller';
-import { Country } from 'src/country/models/country.model';
+import { Country } from 'src/country/models/Country.model';
 
 @Module({
   imports: [SequelizeModule.forFeature([Country])],

@@ -1,4 +1,5 @@
-import { Column, Model, Table } from 'sequelize-typescript';
+import { BelongsTo, Column, HasMany, Model, Table } from 'sequelize-typescript';
+import { EquipmentAttachment } from 'src/equipment-attachment/models/equipment-attachment';
 
 @Table
 export class Equipment extends Model {
@@ -17,7 +18,10 @@ export class Equipment extends Model {
 
   @Column
   type: string;
-  
+
+  @Column
+  companyId: string;
+
   @Column
   equipmentCode: string;
 
@@ -106,8 +110,18 @@ export class Equipment extends Model {
   @Column
   purchaseCost: string;
 
+  @Column
+  category: string;
+
+  @Column
+  condition: string;
+
+  @Column
+  additional_specifications: string;
+
   @Column({ defaultValue: true })
   isActive: boolean;
 
-
+  @HasMany(() => EquipmentAttachment, 'equipmentId')
+  attachments: EquipmentAttachment[]
 }

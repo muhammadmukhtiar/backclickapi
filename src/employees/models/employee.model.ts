@@ -64,7 +64,7 @@ export class Employee extends Model {
 
   @Column
   country: string;
-  
+
   @Column
   state: string;
 
@@ -79,7 +79,6 @@ export class Employee extends Model {
 
   @Column
   preferedCommunicationMode: string;
-
 
   @Column
   prefferedCommunicationTime: string;

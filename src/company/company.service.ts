@@ -3,13 +3,14 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { CreateCompanyDto } from 'src/company/dto/create-company.dto';
 import { Company } from 'src/company/models/company.model';
+import { CompanyAttachment } from 'src/company-attachment/models/company-attachment';
 
 @Injectable()
 export class CompanyService {
   constructor(
     @InjectModel(Company)
     private readonly companyModel: typeof Company,
-  ) {}
+  ) { }
 
   create(createDto: CreateCompanyDto): Promise<Company> {
     return this.companyModel.create({
@@ -19,8 +20,8 @@ export class CompanyService {
 
   update(id: string, updateDto: UpdateCompanyDto): Promise<any> {
     return this.companyModel.update({
-        ...updateDto,
-      },
+      ...updateDto,
+    },
       {
         where: {
           id,
@@ -40,6 +41,7 @@ export class CompanyService {
       where: {
         id,
       },
+      include: [{ model: CompanyAttachment }],
     });
   }
 

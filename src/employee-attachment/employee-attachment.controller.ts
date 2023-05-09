@@ -73,12 +73,13 @@ export class EmployeeAttachmentController {
     const employeeId = body.employeeId;
     let response;
     let deleted_response;
-    const deletedattachment = body.deletedAttachment;
-    if (deletedattachment && deletedattachment.length) {
+    const deletedattachment1 = body.deletedAttachment;
+    if (deletedattachment1 && deletedattachment1.length) {
+      const deletedattachment = JSON.parse(deletedattachment1);
       for (const fileObj of deletedattachment) {
         try {
-          await fs.promises.unlink(fileObj.path);
-          this.employeeAttachmentService.remove(fileObj.id);
+          // await fs.promises.unlink(fileObj.path);
+          await this.employeeAttachmentService.remove(fileObj.id);
         } catch (err) {
           console.error(`Error removing file: ${err.message}`);
         }
