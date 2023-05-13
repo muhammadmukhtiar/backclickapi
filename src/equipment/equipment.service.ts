@@ -18,7 +18,7 @@ export class EquipmentService {
     });
   }
 
-  update(id: string, createDto: CreateEquipmentDto): Promise<any> {
+  async update(id: string, createDto: CreateEquipmentDto): Promise<any> {
     return this.equipmentModel.update(
       {
         ...createDto,

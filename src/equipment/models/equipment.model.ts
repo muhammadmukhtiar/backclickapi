@@ -23,6 +23,9 @@ export class Equipment extends Model {
   companyId: string;
 
   @Column
+  employeeId: string;
+
+  @Column
   equipmentCode: string;
 
   @Column
@@ -115,6 +118,39 @@ export class Equipment extends Model {
 
   @Column
   condition: string;
+
+  @Column
+  status: string;
+
+  @Column
+  purchaseInvoiceNumber: string;
+
+  @Column
+  purchaseDate: string;
+
+  @Column
+  rentOrPurchasePrice: string;
+
+  @Column
+  vendorName: string
+
+  @Column
+  contactName: string
+
+  @Column
+  contactNumber: string
+
+  @Column
+  quantityPurchased: string
+
+  @Column
+  financingSerialNumber: string
+
+  @Column
+  comments: string
+
+  @Column({ defaultValue: false })
+  isDeleted: string
 
   @Column
   additional_specifications: string;

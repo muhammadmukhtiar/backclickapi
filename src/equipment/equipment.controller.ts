@@ -10,7 +10,9 @@ export class EquipmentController {
   constructor(private readonly equipmentService: EquipmentService) { }
 
   @Post()
-  create(@Body() createEquipmentDto: CreateEquipmentDto) {
+  create(@Body() createEquipmentDto: CreateEquipmentDto, @Request() req) {
+    const companyId = req.user.referencedId;
+    createEquipmentDto['companyId'] = companyId;
     return this.equipmentService.create(createEquipmentDto);
   }
 
@@ -30,6 +32,15 @@ export class EquipmentController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.equipmentService.findOne(id);
+  }
+
+  @Post('assig-equipment')
+  async assigEquipment(@Body() createEquipmentDto, @Request() req) {
+    const customData = {
+      employeeId: createEquipmentDto.employeeId,
+      companyId: req.user.referencedId
+    }
+    return await this.equipmentService.update(createEquipmentDto.equipmentId, customData);
   }
 
   @Post(':id')
