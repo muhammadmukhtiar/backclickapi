@@ -32,7 +32,14 @@ export class EquipmentService {
   }
 
   async findAll(companyId): Promise<Equipment[]> {
-    return this.equipmentModel.findAll({ where: { companyId: companyId } });
+    return this.equipmentModel.findAll({
+      where:
+      {
+        companyId: companyId,
+        isActive: true,
+        isDeleted: false
+      }
+    });
   }
 
   search1(query: any): Promise<Equipment[]> {
