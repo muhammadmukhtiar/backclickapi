@@ -1,5 +1,6 @@
 import { Column, HasMany, Model, Table } from 'sequelize-typescript';
 import { EmployeeAttachment } from 'src/employee-attachment/models/employee-attachment';
+import { Equipment } from 'src/equipment/models/equipment.model';
 
 @Table
 export class Employee extends Model {
@@ -87,4 +88,6 @@ export class Employee extends Model {
   @HasMany(() => EmployeeAttachment, 'employeeId')
   attachments: EmployeeAttachment[]
 
+  @HasMany(() => Equipment, 'employeeId')
+  assignedEquipmentList: Equipment[]
 }

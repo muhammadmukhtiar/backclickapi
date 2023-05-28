@@ -5,6 +5,8 @@ import { UpdateEmployeeDto } from 'src/employees/dto/update-employee.dto';
 import { Employee } from 'src/employees/models/employee.model';
 import { generateQuery } from 'src/utility/helpers';
 import { EmployeeAttachment } from 'src/employee-attachment/models/employee-attachment';
+import { Op, literal } from 'sequelize';
+import { Equipment } from 'src/equipment/models/equipment.model';
 
 @Injectable()
 export class EmployeesService {
@@ -32,6 +34,26 @@ export class EmployeesService {
     );
   }
 
+  async searchByName(query: string): Promise<Employee[]> {
+    return this.EmployeeModel.findAll({
+      where: {
+        [Op.or]: [
+          {
+            firstName: {
+              [Op.like]: `%${query}%`,
+            },
+          },
+          {
+            lastName: {
+              [Op.like]: `%${query}%`,
+            },
+          },
+        ],
+      },
+    });
+  }
+
+
   search1(query: any): Promise<Employee[]> {
     return this.EmployeeModel.findAll({
       where: {
@@ -46,11 +68,59 @@ export class EmployeesService {
       companyId: companyId
     }
     const query = generateQuery(searchQuery);
-    return this.EmployeeModel.findAll(query);
+    return this.EmployeeModel.findAll({
+      ...query,
+      order: [['createdAt', 'DESC']],
+      include: [
+        {
+          model: EmployeeAttachment,
+          where: {
+            fieldName: 'logo'
+          },
+          required: false
+        }
+      ],
+      attributes: {
+        include: [
+          [
+            literal(`(
+              SELECT COUNT(*)
+              FROM equipment
+              WHERE equipment.employeeId = Employee.id
+            )`),
+            'totalEquipmentAssigned'
+          ]
+        ]
+      }
+    });
   }
 
   async findAll(companyId): Promise<Employee[]> {
-    return this.EmployeeModel.findAll({ where: { companyId: companyId } });
+    return this.EmployeeModel.findAll({
+      where: { companyId: companyId },
+      order: [['createdAt', 'DESC']],
+      include: [
+        {
+          model: EmployeeAttachment,
+          where: {
+            fieldName: 'logo'
+          },
+          required: false
+        }
+      ],
+      attributes: {
+        include: [
+          [
+            literal(`(
+              SELECT COUNT(*)
+              FROM equipment
+              WHERE equipment.employeeId = Employee.id
+            )`),
+            'totalEquipmentAssigned'
+          ]
+        ]
+      }
+    });
   }
 
   findOne(id: string): Promise<Employee> {
@@ -58,7 +128,22 @@ export class EmployeesService {
       where: {
         id,
       },
-      include: [{ model: EmployeeAttachment }],
+      include: [
+        { model: EmployeeAttachment },
+        { model: Equipment }
+      ],
+      attributes: {
+        include: [
+          [
+            literal(`(
+              SELECT COUNT(*)
+              FROM equipment
+              WHERE equipment.employeeId = Employee.id
+            )`),
+            'totalEquipmentAssigned'
+          ]
+        ]
+      }
     });
   }
 

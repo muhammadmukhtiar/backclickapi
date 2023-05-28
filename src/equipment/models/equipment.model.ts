@@ -1,7 +1,11 @@
-import { BelongsTo, Column, HasMany, Model, Table } from 'sequelize-typescript';
+import { AfterCreate, BeforeUpdate, BelongsTo, Column, HasMany, Model, Table } from 'sequelize-typescript';
+import { Company } from 'src/company/models/company.model';
+import { Employee } from 'src/employees/models/employee.model';
 import { EquipmentAttachment } from 'src/equipment-attachment/models/equipment-attachment';
+import { EquipmentOffer } from 'src/equipment-offer/models/equipment-offer.model';
+import { EquipmentActivity } from 'src/equipmentactivity/models/equipmentactivity.model';
 
-@Table
+@Table({ tableName: 'equipment' })
 export class Equipment extends Model {
 
   @Column
@@ -158,6 +162,56 @@ export class Equipment extends Model {
   @Column({ defaultValue: true })
   isActive: boolean;
 
+  @Column({ defaultValue: false })
+  isCatalog: boolean;
+
   @HasMany(() => EquipmentAttachment, 'equipmentId')
   attachments: EquipmentAttachment[]
+
+  @HasMany(() => EquipmentOffer, 'equipmentId')
+  equipmentOfferList: EquipmentOffer[]
+
+  @BelongsTo(() => Employee, { foreignKey: 'employeeId' })
+  assignedToEmployee: Employee;
+
+  @BelongsTo(() => Company, { foreignKey: 'companyId' })
+  assignedToCompany: Company;
+
+  @HasMany(() => EquipmentActivity, 'equipmentId')
+  equipmentActivity: EquipmentActivity[]
+
+  // @BelongsTo(() => EquipmentActivity, { foreignKey: 'equipmentId' })
+  // equipmentActivity: EquipmentActivity;
+
+  @AfterCreate
+  static async createInitialActivity(equipment: Equipment): Promise<void> {
+    const activity = new EquipmentActivity();
+    activity.title = 'Created Equipment';
+    activity.activityType = 'created';
+    activity.status = 'active';
+    activity.equipmentId = equipment.id;
+    await activity.save();
+  }
+
+  @BeforeUpdate
+  static async updateActivity(equipment: Equipment): Promise<void> {
+    const activity = new EquipmentActivity();
+    activity.title = 'Update Equipment';
+    activity.activityType = 'update';
+    activity.status = 'active';
+    activity.equipmentId = equipment.id;
+    await activity.save();
+  }
+
+
+  static async addAssignedActivity(equipment: Equipment): Promise<void> {
+    const activity = new EquipmentActivity();
+    activity.title = 'Assign Equipment';
+    activity.activityType = 'assign';
+    activity.status = 'active';
+    activity.employeeId = equipment.employeeId;
+    activity.equipmentId = equipment.id;
+    await activity.save();
+  }
+
 }

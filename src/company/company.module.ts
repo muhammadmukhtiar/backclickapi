@@ -11,6 +11,7 @@ import { UsersModule } from 'src/users/users.module';
     SequelizeModule.forFeature([Company]),
 ],
   controllers: [CompanyController],
-  providers: [CompanyService]
+  providers: [CompanyService],
+  exports: [CompanyService]
 })
 export class CompanyModule {}

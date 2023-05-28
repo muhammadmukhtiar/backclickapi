@@ -4,6 +4,8 @@ import { InjectModel } from '@nestjs/sequelize';
 import { CreateCompanyDto } from 'src/company/dto/create-company.dto';
 import { Company } from 'src/company/models/company.model';
 import { CompanyAttachment } from 'src/company-attachment/models/company-attachment';
+import { Op } from 'sequelize';
+import { generateQuery } from 'src/utility/helpers';
 
 @Injectable()
 export class CompanyService {
@@ -32,7 +34,16 @@ export class CompanyService {
 
   async findAll(): Promise<Company[]> {
     return this.companyModel.findAll({
-      order: [['createdAt', 'DESC']]
+      order: [['createdAt', 'DESC']],
+      include: [
+        {
+          model: CompanyAttachment,
+          where: {
+            fieldName: 'logo'
+          },
+          required: false
+        }
+      ],
     });
   }
 
@@ -45,13 +56,42 @@ export class CompanyService {
     });
   }
 
-  search(query: any): Promise<Company[]> {
+  search(searchQuery: any): Promise<Company[]> {
+    searchQuery = {
+      ...searchQuery,
+    }
+    const query = generateQuery(searchQuery);
+    return this.companyModel.findAll(
+      {
+        ...query,
+        order: [['createdAt', 'DESC']],
+        include: [
+          {
+            model: CompanyAttachment,
+            where: {
+              fieldName: 'logo'
+            },
+            required: false
+          }
+        ],
+      }
+    );
+  }
+
+  async searchByName(query: string): Promise<Company[]> {
     return this.companyModel.findAll({
       where: {
-        ...query,
+        [Op.or]: [
+          {
+            name: {
+              [Op.like]: `%${query}%`,
+            },
+          },
+        ],
       },
     });
   }
+
 
   async remove(id: string): Promise<void> {
     const user = await this.findOne(id);

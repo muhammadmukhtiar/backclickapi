@@ -7,6 +7,7 @@ import { EquipmentOffer } from 'src/equipment-offer/models/equipment-offer.model
 @Module({
   imports: [SequelizeModule.forFeature([EquipmentOffer])],
   controllers: [EquipmentOfferController],
-  providers: [EquipmentOfferService]
+  providers: [EquipmentOfferService],
+  exports:[EquipmentOfferService]
 })
 export class EquipmentOfferModule {}

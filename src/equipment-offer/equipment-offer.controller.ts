@@ -1,14 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Query } from '@nestjs/common';
 import { EquipmentOfferService } from './equipment-offer.service';
-import { CreateEquipmentOfferDto } from './dto/create-equipment-offer.dto';
 import { UpdateEquipmentOfferDto } from './dto/update-equipment-offer.dto';
 
 @Controller('equipment-offer')
 export class EquipmentOfferController {
-  constructor(private readonly equipmentOfferService: EquipmentOfferService) {}
+  constructor(private readonly equipmentOfferService: EquipmentOfferService) { }
 
   @Post()
-  create(@Body() createEquipmentOfferDto: CreateEquipmentOfferDto) {
+  create(@Body() createEquipmentOfferDto: any) {
     return this.equipmentOfferService.create(createEquipmentOfferDto);
   }
 

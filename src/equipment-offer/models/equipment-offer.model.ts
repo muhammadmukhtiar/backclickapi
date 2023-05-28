@@ -1,6 +1,6 @@
 import { Column, Model, Table } from 'sequelize-typescript';
 
-@Table
+@Table({ tableName: "equipmentoffers" })
 export class EquipmentOffer extends Model {
 
   @Column
@@ -10,11 +10,14 @@ export class EquipmentOffer extends Model {
   warrantyStartDate: string;
 
   @Column
+  warrantyEndDate: string;
+
+  @Column
   warrantyPeriod: string;
 
   @Column
   vendorCompany: string;
-  
+
   @Column
   contactName: string;
 
@@ -30,8 +33,8 @@ export class EquipmentOffer extends Model {
   @Column({ defaultValue: true })
   isActive: boolean;
 
-  
+
   @Column
   equipmentId: string;
-  	
+
 }

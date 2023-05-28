@@ -1,20 +1,20 @@
 import { Controller, Get, Post, Body, Param, Delete, Request, Query, UseGuards } from '@nestjs/common';
 import { EmployeesService } from 'src/employees/employees.service';
-import { CreateEmployeeDto } from 'src/employees/dto/create-employee.dto';
-import { UpdateEmployeeDto } from 'src/employees/dto/update-employee.dto';
 import { UsersService } from 'src/users/users.service';
 import { RolesGuard } from 'src/auth/auth-strategy/roles-guard';
+import { EquipmentService } from 'src/equipment/equipment.service';
 
 @Controller('employee')
-@UseGuards(new RolesGuard(['company', 'admin']))
+@UseGuards(new RolesGuard(['employee', 'company', 'admin']))
 export class EmployeesController {
   constructor(
     private readonly employeesService: EmployeesService,
     private usersService: UsersService,
+    private readonly equipmentService: EquipmentService,
   ) { }
 
   @Post()
-  async create(@Body() createEmployeeDto: CreateEmployeeDto, @Request() req) {
+  async create(@Body() createEmployeeDto: any, @Request() req) {
     const companyId = req.user.referencedId;
     createEmployeeDto['companyId'] = companyId;
     createEmployeeDto['isActive'] = 1;
@@ -26,6 +26,18 @@ export class EmployeesController {
       isActive: true
     }
     await this.usersService.create(data);
+
+    if (createEmployeeDto.assignedEquipmentList) {
+      const employeeId = employee.dataValues.id;
+      const assignedEquipmentList = createEmployeeDto.assignedEquipmentList.map(item => {
+        const data = {
+          id: item.id,
+          employeeId: employeeId,
+        }
+        return data;
+      });
+      return await this.equipmentService.updateMany(assignedEquipmentList);
+    }
     return employee;
   }
 
@@ -47,7 +59,29 @@ export class EmployeesController {
   }
 
   @Post(':id')
-  update(@Param('id') id: string, @Body() updateEmployeeDto: UpdateEmployeeDto) {
+  async update(@Param('id') id: string, @Body() updateEmployeeDto: any) {
+
+    if (updateEmployeeDto.assignedEquipmentList) {
+      const employeeId = +id;
+      const assignedEquipmentList = updateEmployeeDto.assignedEquipmentList.map(item => {
+        const data = {
+          id: item.id,
+          employeeId: employeeId,
+        }
+        return data;
+      });
+      await this.equipmentService.updateMany(assignedEquipmentList);
+      const deletedArray = await this.equipmentService.findRemovedAssignedEqu(employeeId, assignedEquipmentList);
+      const removeEquipmentList = deletedArray.map(item => {
+        const data = {
+          id: item,
+          employeeId: null,
+        }
+        return data;
+      });
+      await this.equipmentService.updateMany(removeEquipmentList);
+    }
+
     return this.employeesService.update(id, updateEmployeeDto);
   }
 

@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { CreateEquipmentOfferDto } from './dto/create-equipment-offer.dto';
 import { UpdateEquipmentOfferDto } from './dto/update-equipment-offer.dto';
 import { EquipmentOffer } from './models/equipment-offer.model';
 
@@ -8,19 +7,36 @@ import { EquipmentOffer } from './models/equipment-offer.model';
 export class EquipmentOfferService {
   constructor(
     @InjectModel(EquipmentOffer)
-    private readonly equipmentModel: typeof EquipmentOffer,
-  ) {}
+    private readonly equipmentOffer: typeof EquipmentOffer,
+  ) { }
 
-  create(createDto: CreateEquipmentOfferDto): Promise<EquipmentOffer> {
-    return this.equipmentModel.create({
+  async create(createDto: any): Promise<EquipmentOffer> {
+    return this.equipmentOffer.create({
       ...createDto,
     });
   }
 
+
+  async createMany(createDto: any): Promise<EquipmentOffer[]> {
+    return this.equipmentOffer.bulkCreate(createDto);
+  }
+
+  async findAllByEquipmentId(equipmentId: number): Promise<EquipmentOffer[]> {
+    return this.equipmentOffer.findAll({ where: { equipmentId } });
+  }
+
+  async findDeletedOffers(equipmentId: number, offerIds): Promise<number[]> {
+    const existingOffers = await this.equipmentOffer.findAll({ where: { equipmentId } });
+    const existingOfferIds = existingOffers.map(offer => offer.dataValues.id);
+    const updatedOfferIds = offerIds.map(offer => offer.id)
+    const deletedOfferIds = existingOfferIds.filter(id => !updatedOfferIds.includes(id));
+    return deletedOfferIds;
+  }
+
   update(id: string, createDto: UpdateEquipmentOfferDto): Promise<any> {
-    return this.equipmentModel.update({
-        ...createDto,
-      },
+    return this.equipmentOffer.update({
+      ...createDto,
+    },
       {
         where: {
           id,
@@ -30,11 +46,11 @@ export class EquipmentOfferService {
   }
 
   async findAll(): Promise<EquipmentOffer[]> {
-    return this.equipmentModel.findAll();
+    return this.equipmentOffer.findAll();
   }
 
   search(query: any): Promise<EquipmentOffer[]> {
-    return this.equipmentModel.findAll({
+    return this.equipmentOffer.findAll({
       where: {
         ...query,
       },
@@ -42,7 +58,7 @@ export class EquipmentOfferService {
   }
 
   findOne(id: string): Promise<EquipmentOffer> {
-    return this.equipmentModel.findOne({
+    return this.equipmentOffer.findOne({
       where: {
         id,
       },
@@ -52,6 +68,19 @@ export class EquipmentOfferService {
   async remove(id: string): Promise<void> {
     const user = await this.findOne(id);
     await user.destroy();
+  }
+
+
+  async deleteMultiple(deletedOffers): Promise<void> {
+    for (const id of deletedOffers) {
+      try {
+        const user = await this.findOne(id);
+        await user.destroy();
+      } catch (err) {
+        console.error(`Error removing file: ${err.message}`);
+      }
+    }
+
   }
 }
 
